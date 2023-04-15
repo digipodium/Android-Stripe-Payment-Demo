@@ -1,7 +1,6 @@
 package com.example.stripepaymentdemo
 
 import android.app.AlertDialog
-import android.icu.lang.UCharacter.GraphemeClusterBreak.L
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -32,13 +31,14 @@ class CheckoutActivity : AppCompatActivity() {
         binding.button.setOnClickListener {
             presentPaymentSheet()
         }
+        binding.button.isEnabled = false
         validateFromServer(amount)
     }
 
     private fun validateFromServer(amount: Float) {
-        val url = " http://192.168.18.109:8000/checkout"
+        val url = getString(R.string.api_url)
         val params = listOf(
-            "amount" to amount*100,
+            "amount" to amount * 100,
             "currency" to "inr",
             "email" to "dummyuser@gmail.com",
             "name" to "Dummy User",
@@ -54,14 +54,13 @@ class CheckoutActivity : AppCompatActivity() {
                 paymentIntentClientSecret = responseJson.getString("paymentIntent")
                 val customerId = responseJson.getString("customer")
                 val ephemeralKeySecret = responseJson.getString("ephemeralKey")
-                customerConfig =
-                    PaymentSheet.CustomerConfiguration(customerId, ephemeralKeySecret)
+                customerConfig = PaymentSheet.CustomerConfiguration(customerId, ephemeralKeySecret)
                 val publishableKey = responseJson.getString("publishableKey")
                 PaymentConfiguration.init(this, publishableKey)
                 presentPaymentSheet()
-
+                binding.button.isEnabled = true
             } else {
-//                showAlert("Error validating from server")
+                showAlert("Error validating from server, make sure server is running on the network and update the API URL in strings.xml")
             }
         }
 
@@ -93,11 +92,8 @@ class CheckoutActivity : AppCompatActivity() {
     }
 
     fun showAlert(message: String) {
-        AlertDialog.Builder(this)
-            .setTitle("Alert")
-            .setMessage(message)
-            .setPositiveButton("OK", null)
-            .show()
+        AlertDialog.Builder(this).setTitle("Alert").setMessage(message)
+            .setPositiveButton("OK", null).show()
     }
 
 }
