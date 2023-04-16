@@ -1,3 +1,5 @@
+<img src="https://github.com/zaid-kamil/Stripe-Payment-Demo/blob/master/screen/first%20screen.png" height="300"> <img src="https://github.com/zaid-kamil/Stripe-Payment-Demo/blob/master/screen/checkout%20state%201.png" height="300"> <img src="https://github.com/zaid-kamil/Stripe-Payment-Demo/blob/master/screen/checkout%20state%202.png" height="300">
+
 # Stripe Payment Demo
 
 1. [Introduction](#introduction)
